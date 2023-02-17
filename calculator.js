@@ -4,7 +4,7 @@ function add(){
     for(let i=0;i<arguments.length;i++){
     sum+=arguments[i];
     };
-    console.log(total);
+    console.log(sum);
     };
     
     //subtract function
@@ -29,3 +29,12 @@ function add(){
             return a/b;
         });
     };
+
+    //operation
+
+    function operate(operation,...args){
+        let result=operation(...args);
+        return result; 
+    }
+
+    //dom 
