@@ -4,7 +4,7 @@ function add(){
     for(let i=0;i<arguments.length;i++){
     sum+=arguments[i];
     };
-    console.log(sum);
+    return sum;
     };
     
     //subtract function
@@ -13,21 +13,23 @@ function add(){
         for (let i=1; i<arguments.length;i++){
             remainder-=arguments[i];
         }
-        console.log(remainder);
+        return remainder;
     };
     
     //multiply function, this function converts arguments to an array and uses the reduce method 
     function multiply(... args){
-        return args.reduce(function (a,b){
+        let product=args.reduce(function (a,b){
             return a*b;
         });
+        return product;
     };
     
     //divide function
     function divide(... args){
-        return args.reduce( function (a,b){
+        let quotient= args.reduce( function (a,b){
             return a/b;
         });
+        return quotient;
     };
 
     //operation
@@ -80,8 +82,9 @@ let ans=0;
                  if(action=='/'){
                      action=divide;
                  }
-                ans= operate(action,fNum,sNum);
-                return ans;
+                ans= action(fNum,sNum);
+                console.log(ans);
+                
             }
         })
        
