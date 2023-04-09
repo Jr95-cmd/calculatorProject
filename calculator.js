@@ -38,6 +38,8 @@ function add(){
         let result=operation(...args);
         return result; 
     }
+
+
 //define variables
 let fValue=[];
 let fNum=0;
@@ -45,6 +47,9 @@ let sValue=[];
 let sNum=0;
 let action='';
 let ans=0;
+
+
+
     //dom 
     const btn=document.querySelectorAll('button');
     btn.forEach((button) =>{
@@ -53,10 +58,17 @@ let ans=0;
                 fValue.push(button.id);
                 fNum=parseFloat(fValue.join(""));
                 console.log(fNum);
+
+                //code to add values to html
+                let p= document.querySelector('#num1');
+                p.textContent= fNum;
+                
             } 
            if(button.id=='+'||button.id=='-'||button.id=='*'||button.id=='/'){
                 action=button.id;
                 console.log(button.id);
+                let fn= document.querySelector('#operation');
+                fn.textContent=action
             }
                 
           else if(fNum!=null  && action!=''){
@@ -64,6 +76,9 @@ let ans=0;
                 sValue.push(button.id);
                 sNum=parseFloat(sValue.join(""));
                 console.log(sNum);
+                let p2= document.querySelector('#num2');
+                p2.textContent=sNum;
+
             }
                 //execute calculation
             if (button.id=='='){
@@ -84,6 +99,8 @@ let ans=0;
                  }
                 ans= action(fNum,sNum);
                 console.log(ans);
+                let p3= document.querySelector('#result')
+                p3.textContent=ans;
                 
             }
         })
