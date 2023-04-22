@@ -1,0 +1,17 @@
+#calcBody{
+    border-style: solid;
+    border-width: 3px;
+    margin:auto;
+
+    
+   
+}
+body{
+    display:flex;
+    justify-content: center;
+   min-height: 100vh;
+}
+
+.rows{
+    display:flex;
+}

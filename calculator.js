@@ -71,6 +71,10 @@ let actionCount=0;
             } 
            if(button.id=='+'||button.id=='-'||button.id=='*'||button.id=='/'){
                fn.textContent='';
+               if (p3.textContent=='0'){
+                   fNum=0;
+                   p3.textContent='';
+               }
                 equation.push(fNum);
                 console.log(equation);
                 action.push(button.id);
@@ -111,10 +115,22 @@ let actionCount=0;
                  }
                 ans= actionFn(fNum,sNum);
                 console.log(ans);
+                if (ans==Infinity){
+                    alert("any value divided by 0 is 0")
+                    button.id='c';
+                  
+                }
                 //update values and display results
                 p3.textContent=ans;
                 equation=[];
-                fNum=ans;
+            
+                //checks if variable has decimal values
+                if (ans-Math.floor(ans)!=0){
+                    fNum=ans.toFixed(2);
+                }
+                else{
+                    fNum=ans;
+                }
                 equation.push(fNum);
                 console.log(equation);
                 sValue=[];
@@ -147,6 +163,11 @@ let actionCount=0;
                  }
                  //call function and update calculation variables.
                 ans= actionFn(fNum,sNum);
+                //checks if variable has decimal values
+                if (ans-Math.floor(ans!=0)){
+                    ans.toFixed(2);
+                }
+                ans;
                 console.log(ans);
                 p3.textContent=ans;
                 equation=[];
@@ -166,6 +187,23 @@ let actionCount=0;
                 //add code to update p2 dom  to answer value when executed    
             }
             //add code for 'c' button
+            if(button.id=='c'){
+                 fValue=[];
+                 fNum=0;
+                 sValue=[];
+                 sNum=0;
+                 action=[];
+                 ans=0;
+                 actionFn='';
+                 equation=[];
+                 displayEquation='';
+                 actionCount=0;
+                 p3.textContent='0';
+                 p2.textContent='';
+                 p.textContent='';
+                 fn.textContent='';
+
+            }
         })
        
     });
