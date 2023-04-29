@@ -62,128 +62,130 @@ let actionCount=0;
             let p= document.querySelector('#num1');
             let p2= document.querySelector('#num2');
             let p3= document.querySelector('#result')
-            if(sNum==0 && action==''){
-                p3.textContent='';
+            if(sNum==0 && action=='' && button.id!='c' && actionCount<1){
+                p2.textContent='';
                 fValue.push(button.id);
                 fNum=parseFloat(fValue.join(""));
-                console.log(fNum);
-                p2.textContent= fNum;        
+                
+                if(isNaN(fNum)){
+                    fNum=0;
+                }
+                p2.textContent= fNum;       
             } 
            if(button.id=='+'||button.id=='-'||button.id=='*'||button.id=='/'){
-               fn.textContent='';
-               if (p3.textContent=='0'){
-                   fNum=0;
-                   p3.textContent='';
-               }
+                //fn.textContent='';
+                
                 equation.push(fNum);
-                console.log(equation);
                 action.push(button.id);
-                console.log(action[actionCount]);
                 equation.push(action[actionCount]);
-                actionCount+=1;
-                console.log(equation);
+                //actionCount+=1;
                 displayEquation=equation.join(" ");
                 fn.textContent=displayEquation;
-                p2.textContent='';
+                p2.textContent='0';
+                
             }
+            
                 
           else if(fNum!=null  && action.length>=1){
 
                 sValue.push(button.id);
                 sNum=parseFloat(sValue.join(""));
-                console.log(sNum);
                 p2.textContent=sNum;
-                equation.push(sNum);
+                p3.textContent='';
                 
             }
+            //actionCount+=1;
+            
             //execute calculation if equal function is selected 
-            if (button.id=='='){
-                if(action[0]=='+'){
+            if (button.id=='=' && sNum>0){
+                equation.push(sNum);
+                if(action[actionCount]=='+'){
                     actionFn=add;
                 }
                  
-                if(action[0]=='-'){
+                if(action[actionCount]=='-'){
                  actionFn=subtract;
                 }
  
-                 if(action[0]=='*'){
+                 if(action[actionCount]=='*'){
                      actionFn=multiply;
                  }
  
-                 if(action[0]=='/'){
+                 if(action[actionCount]=='/'){
                      actionFn=divide;
                  }
                 ans= actionFn(fNum,sNum);
-                console.log(ans);
                 if (ans==Infinity){
-                    alert("any value divided by 0 is 0")
+                    alert("cannot be divided by 0")
                     button.id='c';
                   
                 }
-                //update values and display results
-                p3.textContent=ans;
-                equation=[];
-            
-                //checks if variable has decimal values
                 if (ans-Math.floor(ans)!=0){
-                    fNum=ans.toFixed(2);
+                    parseFloat(ans.toFixed(2));
+                    fNum=parseFloat(ans.toFixed(2));
+                    console.log(fNum);
                 }
                 else{
                     fNum=ans;
                 }
-                equation.push(fNum);
-                console.log(equation);
+                p3.textContent=fNum;
                 sValue=[];
-                action.shift();
                 displayEquation=equation.join(" ");
+                console.log(displayEquation);
                 fn.textContent=displayEquation;
                 //reset calculation variables 
-                p3.textContent='';
+                equation=[];
                 p2.textContent='';
-                equation.shift();
-                actionCount=0;
+                action.shift();
                
             }
             //execute calculation if operation function is selected more than once 
             if (action.length>1){
-                if(action[0]=='+'){
+                
+                equation.push(fNum);
+                
+                
+                if(action[actionCount]=='+'){
+                    
                     actionFn=add;
                 }
                  
-                if(action[0]=='-'){
+                if(action[actionCount]=='-'){
                  actionFn=subtract;
                 }
  
-                 if(action[0]=='*'){
+                 if(action[actionCount]=='*'){
                      actionFn=multiply;
                  }
  
-                 if(action[0]=='/'){
+                 if(action[actionCount]=='/'){
                      actionFn=divide;
                  }
+                 
+
                  //call function and update calculation variables.
                 ans= actionFn(fNum,sNum);
                 //checks if variable has decimal values
                 if (ans-Math.floor(ans!=0)){
                     ans.toFixed(2);
+                    //console.log(ans);
                 }
-                ans;
-                console.log(ans);
+                
                 p3.textContent=ans;
                 equation=[];
-                fNum=ans;
+                fNum=parseFloat(ans);
                 //update equation 
                 equation.push(fNum);
-                console.log(equation);
                 //reset second number array
                 sValue=[];
-                action.shift();
-                equation.push(action[0]);
+                
+                equation.push(action[1]);
                 //display results
                 displayEquation=equation.join(" ");
                 fn.textContent=displayEquation;
+                p2.textContent='0';
                 p3.textContent='';
-                p2.textContent='';
+                action.shift();
                 //add code to update p2 dom  to answer value when executed    
             }
             //add code for 'c' button
@@ -198,9 +200,8 @@ let actionCount=0;
                  equation=[];
                  displayEquation='';
                  actionCount=0;
-                 p3.textContent='0';
-                 p2.textContent='';
-                 p.textContent='';
+                 p2.textContent='0';
+                p3.textContent='';
                  fn.textContent='';
 
             }
