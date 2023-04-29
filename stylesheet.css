@@ -1,10 +1,13 @@
 #calcBody{
     border-style: solid;
     border-width: 3px;
-    margin:auto;
-
-    
-   
+    margin:200px 150px;
+    width:450px;
+    flex-direction: column;
+    height:700px;
+    background: #070606;  
+    border-radius: 15px;
+    box-shadow: 10px 20px 10px grey;
 }
 body{
     display:flex;
@@ -12,6 +15,50 @@ body{
    min-height: 100vh;
 }
 
-.rows{
+
+#display,.rows{
+    displaY:flex;
+    justify-content: space-evenly;
+}
+#numPad{
+    width:100%;
+    height:80%;
+    flex-direction: column;
     display:flex;
+    justify-content: space-evenly;
+    max-height: 500px;
+    
+}
+button{
+    height: 70px;
+    width:70px;
+    font-size:30px;
+    border-radius: 50%;
+    background-color:grey;
+    box-shadow: -1px -2px 2px white;
+}
+button:hover{
+    background-color: floralwhite;
+    cursor: pointer;
+}
+#num1,#num2,#operation,#result{
+    font-size:30px;
+}
+
+#display{
+    border: 2px solid;
+    border-radius: 15px;
+    margin: 20px 10px;
+    background-color: #FFFDFA;
+    display: block;
+    text-align: right;
+    min-height:150px;
+}
+#operation,#num2{
+    margin:5px 10px;
+}
+
+.action{
+    background-color: orange;
+    color: #FFFDFA;
 }
