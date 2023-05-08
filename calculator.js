@@ -51,6 +51,13 @@ let actionFn='';
 let equation=[];
 let displayEquation='';
 let actionCount=0;
+//disable clear buttons
+const actionBtDisable = Array.from(document.getElementsByClassName('actionC'));
+for (var i = 0; i < actionBtDisable.length; i++) {
+    actionBtDisable[i].disabled = true;
+}
+const disEq = document.getElementById('=')
+disEq.disabled = true;
 
 
 
@@ -61,24 +68,43 @@ let actionCount=0;
             let fn= document.querySelector('#operation');
             let p= document.querySelector('#num1');
             let p2= document.querySelector('#num2');
-            let p3= document.querySelector('#result')
-            if(sNum==0 && action=='' && button.id!='c' && actionCount<1){
-                p2.textContent='';
-                fValue.push(button.id);
-                fNum=parseFloat(fValue.join(""));
+            let p3 = document.querySelector('#result')
+            const disDec = document.getElementById('.');
+            if (sNum == 0 && action == '' && button.id != 'c' && actionCount < 1) {
+                for (var i = 0; i < actionBtDisable.length; i++) {
+                    actionBtDisable[i].disabled = false;
+                }
                 
+                if (button.id == 'B') {
+                    fValue.pop();
+                    console.log(fValue);
+                }
+                p2.textContent = '';
+                if (button.id == '.') {
+                    disDec.disabled = true;
+                 }
+
+                if (button.id!='+' && button.id!='-' && button.id!='*' && button.id!='/' && button.id!='B') {
+                    fValue.push(button.id);
+                    console.log(fValue);
+                }
+                
+                fNum = fValue.join("");
+                console.log(fNum);
                 if(isNaN(fNum)){
                     fNum=0;
                 }
-                p2.textContent= fNum;       
+                p2.textContent = fNum;
+                fNum = Number(fNum);
             } 
            if(button.id=='+'||button.id=='-'||button.id=='*'||button.id=='/'){
-                //fn.textContent='';
-                
-                equation.push(fNum);
+               disDec.disabled = false;
+               disEq.disabled = true;
+
+               p3.textContent = '';
+               equation.push(fNum);
                 action.push(button.id);
                 equation.push(action[actionCount]);
-                //actionCount+=1;
                 displayEquation=equation.join(" ");
                 fn.textContent=displayEquation;
                 p2.textContent='0';
@@ -86,19 +112,37 @@ let actionCount=0;
             }
             
                 
-          else if(fNum!=null  && action.length>=1){
+           else if (fNum != null && action.length >= 1) {
+              
+               for (var i = 0; i < actionBtDisable.length; i++) {
+                   actionBtDisable[i].disabled = false;
+               }
 
-                sValue.push(button.id);
-                sNum=parseFloat(sValue.join(""));
-                p2.textContent=sNum;
-                p3.textContent='';
+               if (button.id == 'B') {
+                   sValue.pop();
+                   console.log(sValue);
+               }
+               
+               if (button.id =='.') {
+                   disDec.disabled = true;
+               }
+
+               if (button.id != 'B') {
+                   sValue.push(button.id);
+               }
+               console.log(sValue);
+                sNum=sValue.join("");
+               p2.textContent = sNum;
+               sNum = Number(parseFloat(sNum));
+               p3.textContent = '';
+               disEq.disabled = false;
+
                 
-            }
-            //actionCount+=1;
-            
+           }
             //execute calculation if equal function is selected 
-            if (button.id=='=' && sNum>0){
+            if (button.id=='='){
                 equation.push(sNum);
+                
                 if(action[actionCount]=='+'){
                     actionFn=add;
                 }
@@ -114,7 +158,10 @@ let actionCount=0;
                  if(action[actionCount]=='/'){
                      actionFn=divide;
                  }
-                ans= actionFn(fNum,sNum);
+                console.log(fNum);
+                console.log(sNum);
+                ans = actionFn(fNum, sNum);
+                console.log(ans);
                 if (ans==Infinity){
                     alert("cannot be divided by 0")
                     button.id='c';
@@ -134,9 +181,11 @@ let actionCount=0;
                 console.log(displayEquation);
                 fn.textContent=displayEquation;
                 //reset calculation variables 
-                equation=[];
+                equation = [];
+                
                 p2.textContent='';
                 action.shift();
+                disEq.disabled = true;
                
             }
             //execute calculation if operation function is selected more than once 
@@ -167,7 +216,7 @@ let actionCount=0;
                 ans= actionFn(fNum,sNum);
                 //checks if variable has decimal values
                 if (ans-Math.floor(ans!=0)){
-                    ans.toFixed(2);
+                    Number(ans).toFixed(2);
                     //console.log(ans);
                 }
                 
@@ -183,7 +232,6 @@ let actionCount=0;
                 //display results
                 displayEquation=equation.join(" ");
                 fn.textContent=displayEquation;
-                p2.textContent='0';
                 p3.textContent='';
                 action.shift();
                 //add code to update p2 dom  to answer value when executed    
@@ -202,8 +250,12 @@ let actionCount=0;
                  actionCount=0;
                  p2.textContent='0';
                 p3.textContent='';
-                 fn.textContent='';
-
+                fn.textContent = '';
+                disDec.disabled = false;
+                for (var i = 0; i < actionBtDisable.length; i++) {
+                    actionBtDisable[i].disabled = true;
+                }
+                disEq.disabled = true;
             }
         })
        

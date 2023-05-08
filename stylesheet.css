@@ -29,6 +29,12 @@ body{
     max-height: 500px;
     
 }
+.criticalRow {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
 button{
     height: 70px;
     width:70px;
@@ -40,19 +46,22 @@ button{
 button:hover{
     background-color: floralwhite;
     cursor: pointer;
+    color:black;
 }
 #num1,#num2,#operation,#result{
-    font-size:30px;
+    font-size:35px;
 }
 
-#display{
-    border: 2px solid;
+#display {
+    border: 10px solid;
     border-radius: 15px;
+    border-color: #2C2D2D;
     margin: 20px 10px;
-    background-color: #FFFDFA;
+    background-color: #808080;
     display: block;
     text-align: right;
-    min-height:150px;
+    min-height: 150px;
+    max-height: 100px;
 }
 #operation,#num2{
     margin:5px 10px;
@@ -61,4 +70,10 @@ button:hover{
 .action{
     background-color: orange;
     color: #FFFDFA;
+}
+
+.actionC {
+    background-color: crimson;
+    color: #FFFDFA;
+    
 }
