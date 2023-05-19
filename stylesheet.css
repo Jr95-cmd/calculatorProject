@@ -41,7 +41,7 @@ button{
     font-size:30px;
     border-radius: 50%;
     background-color:grey;
-    box-shadow: -1px -2px 2px white;
+    box-shadow: -1px -2px 2px white inset;
 }
 button:hover{
     background-color: floralwhite;
@@ -67,12 +67,13 @@ button:hover{
     margin:5px 10px;
 }
 
-.action{
+.action,.actionEq{
     background-color: orange;
     color: #FFFDFA;
 }
 
-.actionC {
+
+.actionC,.cL {
     background-color: crimson;
     color: #FFFDFA;
     

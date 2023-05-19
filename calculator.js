@@ -44,13 +44,46 @@ function add(){
 let fValue=[];
 let fNum=0;
 let sValue=[];
-let sNum=0;
+let sNum=null;
 let action=[];
 let ans=0;
 let actionFn='';
 let equation=[];
 let displayEquation='';
-let actionCount=0;
+let actionCount = 0;
+
+
+
+
+//code to trigger keyboard inputs
+document.addEventListener('keydown',(event)=>{
+    let key = event.key;
+    console.log(key);
+    const defineBts = document.getElementsByTagName('button');
+
+    if (key == 'b' || key == 'Backspace') {
+        key ='B';
+    }
+
+    if (key == 'Enter') {
+        key = '=';
+    }
+
+
+   //read on this 
+    const ids = Array.prototype.map.call(defineBts, function (a) {
+        return a.getAttribute('id');
+    })
+    console.log(ids);
+
+    if (ids.indexOf(key) > -1) {
+        document.getElementById(key).click();
+    }
+    else {
+        console.log('not a button');
+    }
+})
+
 //disable clear buttons
 const actionBtDisable = Array.from(document.getElementsByClassName('actionC'));
 for (var i = 0; i < actionBtDisable.length; i++) {
@@ -59,6 +92,16 @@ for (var i = 0; i < actionBtDisable.length; i++) {
 const disEq = document.getElementById('=')
 disEq.disabled = true;
 
+const functionBtDisable = Array.from(document.getElementsByClassName('action'));
+for (var a = 0; a < functionBtDisable.length; a++) {
+    functionBtDisable[a].disabled = false;
+}
+
+const actionClass = Array.prototype.map.call(functionBtDisable, function (c) {
+    return c.getAttribute('class');
+})
+
+console.log(actionClass);
 
 
     //dom 
@@ -70,36 +113,84 @@ disEq.disabled = true;
             let p2= document.querySelector('#num2');
             let p3 = document.querySelector('#result')
             const disDec = document.getElementById('.');
-            if (sNum == 0 && action == '' && button.id != 'c' && actionCount < 1) {
-                for (var i = 0; i < actionBtDisable.length; i++) {
-                    actionBtDisable[i].disabled = false;
-                }
-                
+
+            if (sNum == null && action == '' && actionClass.indexOf(button.className)!=0) {
+                //CHECK HERE
+               
                 if (button.id == 'B') {
                     fValue.pop();
                     console.log(fValue);
+                    if (fValue[0] == null) {
+                        
+                        fNum = 0;
+                        p2.textContent = '0';
+                        
+                    }
                 }
                 p2.textContent = '';
                 if (button.id == '.') {
                     disDec.disabled = true;
                  }
 
-                if (button.id!='+' && button.id!='-' && button.id!='*' && button.id!='/' && button.id!='B') {
+                console.log(button.id);
+                if (button.id!='B') {
                     fValue.push(button.id);
                     console.log(fValue);
+
+                    
                 }
-                
-                fNum = fValue.join("");
-                console.log(fNum);
+                /*if (fValue.length > 1) {
+                    for (var i = 0; i < actionBtDisable.length; i++) {
+                        actionBtDisable[i].disabled = false;
+                    }
+                    console.log(fValue.lenght);
+                }
+
+                if (fValue.length == 1) {
+                    for (var i = 0; i < actionBtDisable.length; i++) {
+                        actionBtDisable[i].disabled = true;
+                    }
+                    console.log(fValue.lenght);
+                }*/
+
+                for (var i = 0; i < functionBtDisable.length; i++) {
+                    functionBtDisable[i].disabled = false;
+                }
+
+                if (fValue[0] != null) {
+                    if (fValue.length > 1 && fValue[0] == 0) {
+                        fValue.shift();
+
+                    }
+
+                    fNum = fValue.join("");
+                    console.log(fNum);
+                }
                 if(isNaN(fNum)){
                     fNum=0;
                 }
                 p2.textContent = fNum;
                 fNum = Number(fNum);
-            } 
-           if(button.id=='+'||button.id=='-'||button.id=='*'||button.id=='/'){
+            }
+
+
+            if (fNum > 0) {
+                for (var i = 0; i < actionBtDisable.length; i++) {
+                    actionBtDisable[i].disabled = false;
+
+                }
+               
+            }
+
+
+            
+            if (actionClass.indexOf(button.className) == 0 &&equation[1]==null){
                disDec.disabled = false;
                disEq.disabled = true;
+               
+               /*for (var i = 0; i < functionBtDisable.length; i++) {
+                   functionBtDisable[i].disabled = false;
+               }*/
 
                p3.textContent = '';
                equation.push(fNum);
@@ -108,90 +199,153 @@ disEq.disabled = true;
                 displayEquation=equation.join(" ");
                 fn.textContent=displayEquation;
                 p2.textContent='0';
-                
+
+               /*for (var i = 0; i < functionBtDisable.length; i++) {
+                   functionBtDisable[i].disabled = false;
+               }*/
             }
             
-                
-           else if (fNum != null && action.length >= 1) {
-              
-               for (var i = 0; i < actionBtDisable.length; i++) {
-                   actionBtDisable[i].disabled = false;
-               }
+            
 
+            if (fNum != null && equation.length >= 1 && actionClass.indexOf(button.className) != 0 && button.id!='=') {
+               
                if (button.id == 'B') {
                    sValue.pop();
                    console.log(sValue);
+                   if (sValue[0] == null) {
+
+
+                       sNum = 0;
+                       p2.textContent = '0';
+
+                   }
                }
                
                if (button.id =='.') {
                    disDec.disabled = true;
                }
 
-               if (button.id != 'B') {
-                   sValue.push(button.id);
-               }
-               console.log(sValue);
-                sNum=sValue.join("");
-               p2.textContent = sNum;
-               sNum = Number(parseFloat(sNum));
-               p3.textContent = '';
-               disEq.disabled = false;
+                if (button.id != 'B') {
+                    sValue.push(button.id);
 
+                    console.log(sValue);
+                    if (sValue.length > 1 && sValue[0] == 0) {
+                        sValue.shift();
+
+                    }
+                    sNum = sValue.join("");
+                    p2.textContent = sNum;
+                    sNum = Number(sNum);
+
+                    p3.textContent = '';
+                }
                 
-           }
+               disEq.disabled = false;
+               for (var i = 0; i < functionBtDisable.length; i++) {
+                   functionBtDisable[i].disabled = false;
+               }
+
+              if (sNum > 0) {
+                   for (var i = 0; i < actionBtDisable.length; i++) {
+                       actionBtDisable[i].disabled = false;
+
+                   }
+
+               }
+                
+            }
+           
             //execute calculation if equal function is selected 
-            if (button.id=='='){
+            if (button.id == '=' ){
                 equation.push(sNum);
+                console.log(equation);
                 
-                if(action[actionCount]=='+'){
+                if(equation[1]=='+'){
                     actionFn=add;
                 }
                  
-                if(action[actionCount]=='-'){
+                if (equation[1]=='-'){
                  actionFn=subtract;
                 }
  
-                 if(action[actionCount]=='*'){
+                if (equation[1]=='*'){
                      actionFn=multiply;
                  }
  
-                 if(action[actionCount]=='/'){
+                if (equation[1] == '/') {
+                    if (sNum == 0) {
+                        alert("cannot be divided by 0");
+                        sNum = 0;
+                        sValue = [];
+                        
+                        
+                        p2.textContent = '0';
+                        equation.pop();
+                        
+                        console.log(equation);
+                        
+                    }
+
                      actionFn=divide;
                  }
-                console.log(fNum);
-                console.log(sNum);
+                
                 ans = actionFn(fNum, sNum);
                 console.log(ans);
                 if (ans==Infinity){
-                    alert("cannot be divided by 0")
-                    button.id='c';
-                  
+                    //ans = 0;
+                    //button.id='c';
+                    //document.getElementById('c').click();
+                    
                 }
-                if (ans-Math.floor(ans)!=0){
-                    parseFloat(ans.toFixed(2));
-                    fNum=parseFloat(ans.toFixed(2));
-                    console.log(fNum);
+
+                if (ans != Infinity) {
+                    if (ans - Math.floor(ans) != 0) {
+                        parseFloat(ans.toFixed(2));
+                        fNum = parseFloat(ans.toFixed(2));
+                        console.log(fNum);
+                    }
+                    else {
+                        fNum = ans;
+                    }
+                    p3.textContent = fNum;
+                    action.shift();
+                    p2.textContent = '';
+                    sValue = [];
+                    displayEquation = equation.join(" ");
+                    console.log(displayEquation);
+                    fn.textContent = displayEquation;
+                    
                 }
-                else{
-                    fNum=ans;
-                }
-                p3.textContent=fNum;
-                sValue=[];
-                displayEquation=equation.join(" ");
-                console.log(displayEquation);
-                fn.textContent=displayEquation;
                 //reset calculation variables 
                 equation = [];
-                
-                p2.textContent='';
-                action.shift();
+
+                //p2.textContent = '';
+
                 disEq.disabled = true;
-               
+
+                for (var i = 0; i < functionBtDisable.length; i++) {
+                    functionBtDisable[i].disabled = false;
+                }
+                   
+                    
+                
+                    
+                
+
+
+
             }
-            //execute calculation if operation function is selected more than once 
+
+            /*if (actionClass.indexOf(button.className) == 0 && equation[1] != null) {
+                
+                document.getElementById('=').click();
+            }*/
+
+            /*
+            //execute calculation if operation function is selected more than once
             if (action.length>1){
                 
-                equation.push(fNum);
+                equation.push(sNum);
                 
                 
                 if(action[actionCount]=='+'){
@@ -207,7 +361,14 @@ disEq.disabled = true;
                      actionFn=multiply;
                  }
  
-                 if(action[actionCount]=='/'){
+                if (action[actionCount] == '/') {
+                    if (sNum == 0) {
+                        console.log(sValue);
+                        alert("cannot be divided by 0");
+                        sNum = 0;
+                        sValue[0] = sNum;
+                        p2.textContent = '0';
+                    }
                      actionFn=divide;
                  }
                  
@@ -236,19 +397,44 @@ disEq.disabled = true;
                 action.shift();
                 //add code to update p2 dom  to answer value when executed    
             }
+            */
+
+            //in the event two numeric variables have been given and function button is selected
+            if (equation.length == 2 && actionClass.indexOf(button.className) == 0) {
+               
+                    document.getElementById('=').click();
+                    
+
+                
+               
+                    p3.textContent = '';
+                
+                    p2.textContent = '';
+                    sValue = [];
+                    equation.pop();
+                    equation[1] = button.id;
+                    equation[0] = fNum;
+                    displayEquation = equation.join(" ");
+                    console.log(displayEquation);
+                    fn.textContent = displayEquation;
+                  
+                
+
+            }
+
             //add code for 'c' button
             if(button.id=='c'){
                  fValue=[];
                  fNum=0;
                  sValue=[];
-                 sNum=0;
+                 sNum=null;
                  action=[];
-                 ans=0;
+                 //ans=0;
                  actionFn='';
                  equation=[];
                  displayEquation='';
                  actionCount=0;
-                 p2.textContent='0';
+                 p2.textContent=fNum;
                 p3.textContent='';
                 fn.textContent = '';
                 disDec.disabled = false;
